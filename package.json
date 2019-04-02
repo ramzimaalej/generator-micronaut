@@ -1,12 +1,13 @@
 {
   "name": "generator-micronaut",
   "version": "0.0.1",
-  "description": "Micronaut based microservice generator",
+  "description": "Micronaut based micro-service generator",
   "files": [
     "generators"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "lint": "xo"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,12 @@
   },
   "homepage": "https://github.com/ramzimaalej/generator-micronaut#readme",
   "dependencies": {
+    "xo": "^0.24.0",
     "yeoman-generator": "^3.2.0"
+  },
+  "devDependencies": {
+    "yeoman-test": "^1.9.1",
+    "yeoman-assert": "^3.1.1",
+    "mocha": "^6.0.2"
   }
 }
