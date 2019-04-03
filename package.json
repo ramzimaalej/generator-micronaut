@@ -6,7 +6,7 @@
     "generators"
   ],
   "scripts": {
-    "test": "mocha",
+    "test": "mocha $(find test -name '*.js')",
     "lint": "xo"
   },
   "repository": {

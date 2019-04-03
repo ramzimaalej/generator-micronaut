@@ -8,7 +8,7 @@ plugins {
 }
 
 version "0.1"
-group "com.veamly"
+group "<%= service_name %>"
 
 repositories {
     mavenLocal()
@@ -50,7 +50,7 @@ run.classpath += configurations.developmentOnly
 test.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 
-mainClassName = "com.veamly.Application"
+mainClassName = "<%= package_name %>.Application"
 // use JUnit 5 platform
 test {
     useJUnitPlatform()
