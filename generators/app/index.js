@@ -37,7 +37,8 @@ module.exports = class extends Generator {
             this.destinationPath('pom.xml'),
             {
                 service_name: this.answers.service_name,
-                package_name: this.answers.package_name
+                package_name: this.answers.package_name,
+                testing_framework: this.answers.testing_framework
             }
         );
         this.fs.copy(
@@ -52,7 +53,8 @@ module.exports = class extends Generator {
             this.destinationPath('build.gradle'),
             {
                 service_name: this.answers.service_name,
-                package_name: this.answers.package_name
+                package_name: this.answers.package_name,
+                testing_framework: this.answers.testing_framework
             }
         );
         this.fs.copyTpl(
@@ -128,6 +130,13 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
             this.templatePath('src/main/resources/application.yml.ejs'),
             this.destinationPath('src/main/resources/application.yml'),
+            {
+                service_name: this.answers.service_name
+            }
+        );
+        this.fs.copyTpl(
+            this.templatePath('src/main/resources/application-prd.yml.ejs'),
+            this.destinationPath('src/main/resources/application-prd.yml'),
             {
                 service_name: this.answers.service_name
             }
