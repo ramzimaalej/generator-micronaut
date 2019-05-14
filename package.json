@@ -1,7 +1,7 @@
 {
   "name": "generator-micronaut",
   "version": "0.0.1",
-  "description": "Micronaut based micro-service generator",
+  "description": "Open Source generator for Micronaut based projects",
   "files": [
     "generators"
   ],
@@ -11,18 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ramzimaalej/generator-micronaut.git"
+    "url": "https://github.com/veamly-inc/generator-micronaut"
   },
   "keywords": [
     "micronaut",
     "generator"
   ],
-  "author": "Ramzi Maalej",
-  "license": "MIT",
+  "author": "Ramzi Maalej <ramzi.maalej@gmail.com>",
+  "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/ramzimaalej/generator-micronaut/issues"
   },
-  "homepage": "https://github.com/ramzimaalej/generator-micronaut#readme",
+  "homepage": "https://github.com/veamly-inc/generator-micronaut#readme",
   "dependencies": {
     "xo": "^0.24.0",
     "yeoman-generator": "^3.2.0"
