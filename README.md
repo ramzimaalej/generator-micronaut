@@ -4,6 +4,16 @@ Options based generator to create Micronaut based projects
 
 # Installation
 
+To use the generator, follow these steps:
+
+``mkdir my-service && cd my-service``
+
+``npm install -g generator-micronaut``
+
+Now, you can create a project by running this command:
+
+``yo micronaut``
+
 # License
 
 Copyright 2019 Generator-Micronaut Contributors

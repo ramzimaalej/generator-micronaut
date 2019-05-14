@@ -1,6 +1,6 @@
 {
   "name": "generator-micronaut",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Open Source generator for Micronaut based projects",
   "files": [
     "generators"
