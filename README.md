@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/veamly-inc/generator-micronaut.svg?branch=master)](https://travis-ci.org/veamly-inc/generator-micronaut)
+
 # Micronaut Generator
 
 Options based generator to create Micronaut based projects
