@@ -53,6 +53,13 @@
       <artifactId>micronaut-http-server-netty</artifactId>
       <scope>compile</scope>
     </dependency>
+    <%_ if (monitoring_enabled === "yes") { _%>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-management</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <%_ } _%>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -126,6 +133,25 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.0</version>
       </plugin>
+      <%_ if (monitoring_enabled === "yes") { _%>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.1.5.RELEASE</version>
+        <configuration>
+          <environmentVariables>
+            <CI></CI>
+          </environmentVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build-info</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <%_ } _%>
     </plugins>
     <pluginManagement>
       <plugins>

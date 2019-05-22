@@ -1,3 +1,6 @@
 micronaut:
     application:
         name: <%= service_name %>
+<%_ if (monitoring_enabled === "yes") { _%>
+endpoints.all.path: /endpoints
+<%_ } _%>

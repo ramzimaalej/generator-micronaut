@@ -38,7 +38,8 @@ module.exports = class extends Generator {
             {
                 service_name: this.answers.service_name,
                 package_name: this.answers.package_name,
-                testing_framework: this.answers.testing_framework
+                testing_framework: this.answers.testing_framework,
+                monitoring_enabled: this.answers.monitoring_enabled
             }
         );
         this.fs.copy(
@@ -54,7 +55,8 @@ module.exports = class extends Generator {
             {
                 service_name: this.answers.service_name,
                 package_name: this.answers.package_name,
-                testing_framework: this.answers.testing_framework
+                testing_framework: this.answers.testing_framework,
+                monitoring_enabled: this.answers.monitoring_enabled
             }
         );
         this.fs.copyTpl(
@@ -131,14 +133,16 @@ module.exports = class extends Generator {
             this.templatePath('src/main/resources/application.yml.ejs'),
             this.destinationPath('src/main/resources/application.yml'),
             {
-                service_name: this.answers.service_name
+                service_name: this.answers.service_name,
+                monitoring_enabled: this.answers.monitoring_enabled
             }
         );
         this.fs.copyTpl(
             this.templatePath('src/main/resources/application-prd.yml.ejs'),
             this.destinationPath('src/main/resources/application-prd.yml'),
             {
-                service_name: this.answers.service_name
+                service_name: this.answers.service_name,
+                monitoring_enabled: this.answers.monitoring_enabled
             }
         );
         this.fs.copyTpl(
@@ -194,6 +198,22 @@ module.exports = class extends Generator {
                     },
                 ],
                 default: 'junit'
+            },
+            {
+                type: 'list',
+                name: 'monitoring_enabled',
+                message: 'Would like to enable management & monitoring?',
+                choices: [
+                    {
+                        value: 'yes',
+                        name: 'Yes'
+                    },
+                    {
+                        value: 'no',
+                        name: 'No'
+                    },
+                ],
+                default: 'yes'
             }
         ]);
     }
@@ -204,5 +224,9 @@ module.exports = class extends Generator {
         this._writeCodeFiles();
         this._writeResourcesFiles();
         this._writeTestFiles();
+    }
+
+    configuring() {
+        this.config.save();
     }
 };

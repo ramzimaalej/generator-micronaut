@@ -1,3 +1,11 @@
+<%_ if (monitoring_enabled === "yes") { _%>
+buildscript {
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE"
+    }
+}
+<%_ } _%>
+
 plugins {
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
     id "com.github.johnrengelman.shadow" version "4.0.2"
@@ -38,6 +46,9 @@ dependencies {
     compile "io.micronaut:micronaut-inject"
     compile "io.micronaut:micronaut-validation"
     compile "io.micronaut:micronaut-runtime"
+    <%_ if (monitoring_enabled === "yes") { _%>
+    compile "io.micronaut:micronaut-management"
+    <%_ } _%>
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testCompile "org.junit.jupiter:junit-jupiter-api"
@@ -65,7 +76,31 @@ mainClassName = "<%= package_name %>.Application"
 test {
     useJUnitPlatform()
 }
+
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
 }
+
+<%_ if (monitoring_enabled === "yes") { _%>
+import org.springframework.boot.gradle.tasks.buildinfo.BuildInfo
+
+task buildInfo(type: BuildInfo) {
+    description = 'Generates build-info.properties file.'
+
+    group = BasePlugin.BUILD_GROUP
+
+    destinationDir = new File(sourceSets.main.output.resourcesDir, 'META-INF')
+
+    properties {
+        time = null // Otherwise task is never up-to-date
+        artifact = shadowJar.baseName
+
+        // Extra properties that will be added to build-info.properties.
+        additionalProperties = [
+        CI: System.getenv('CI') ? true: false
+        ]
+    }
+}
+classes.dependsOn buildInfo
+<%_ } _%>
