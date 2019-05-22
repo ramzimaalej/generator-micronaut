@@ -307,6 +307,12 @@ module.exports = class extends Generator {
     }
 
     configuring() {
-        this.config.save();
+        this.config.set("service_name", this.answers.service_name);
+        this.config.set("package_name", this.answers.package_name);
+        this.config.set("build_tool", this.answers.build_tool);
+        this.config.set("testing_framework", this.answers.testing_framework);
+        this.config.set("monitoring_enabled", this.answers.monitoring_enabled);
+        this.config.set("k8s_enabled", this.answers.k8s_enabled);
+        this.config.set("cbuild_enabled", this.answers.cbuild_enabled);
     }
 };

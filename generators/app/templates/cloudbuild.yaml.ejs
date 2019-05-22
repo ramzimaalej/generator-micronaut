@@ -1,7 +1,7 @@
 steps:
 <%_ if (build_tool === "gradle") { _%>
   - name: 'gcr.io/cloud-builders/gradle'
-    args: ['test]
+    args: ['test']
 <%_ } else { _%>
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['test]
