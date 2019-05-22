@@ -10,7 +10,7 @@ module.exports = class extends Generator {
         this.fs.copy(
             this.templatePath('Dockerfile.ejs'),
             this.destinationPath('Dockerfile'),
-            { service_name: this.answers.service_name }
+            {service_name: this.answers.service_name}
         );
         this.fs.copyTpl(
             this.templatePath('micronaut-cli.yml.ejs'),
@@ -82,7 +82,7 @@ module.exports = class extends Generator {
     }
 
     _writeBuildFiles() {
-        if(this.answers.build_tool === "maven") {
+        if (this.answers.build_tool === "maven") {
             this._writeMavenFiles();
         } else {
             this._writeGradleFiles();
@@ -90,7 +90,7 @@ module.exports = class extends Generator {
     }
 
     _writeTestFiles() {
-        if(this.answers.testing_framework === "junit") {
+        if (this.answers.testing_framework === "junit") {
             this._writeJunitTestFiles();
         } else {
             this._writeSpockTestFiles();
@@ -101,7 +101,7 @@ module.exports = class extends Generator {
     _writeSpockTestFiles() {
         this.fs.copyTpl(
             this.templatePath('src/test/groovy/package/ApplicationTest.groovy.ejs'),
-            this.destinationPath('src/test/groovy/'+this.answers.package_name.replace(".", "/")+'/ApplicationTest.groovy'),
+            this.destinationPath('src/test/groovy/' + this.answers.package_name.replace(".", "/") + '/ApplicationTest.groovy'),
             {
                 package_name: this.answers.package_name
             }
@@ -111,7 +111,7 @@ module.exports = class extends Generator {
     _writeJunitTestFiles() {
         this.fs.copyTpl(
             this.templatePath('src/test/java/package/ApplicationTest.java.ejs'),
-            this.destinationPath('src/test/java/'+this.answers.package_name.replace(".", "/")+'/ApplicationTest.java'),
+            this.destinationPath('src/test/java/' + this.answers.package_name.replace(".", "/") + '/ApplicationTest.java'),
             {
                 package_name: this.answers.package_name
             }
@@ -121,7 +121,7 @@ module.exports = class extends Generator {
     _writeCodeFiles() {
         this.fs.copyTpl(
             this.templatePath('src/main/java/package/Application.java.ejs'),
-            this.destinationPath('src/main/java/'+this.answers.package_name.replace(".", "/")+'/Application.java'),
+            this.destinationPath('src/main/java/' + this.answers.package_name.replace(".", "/") + '/Application.java'),
             {
                 package_name: this.answers.package_name
             }
@@ -155,7 +155,7 @@ module.exports = class extends Generator {
     }
 
     _writeK8sFiles() {
-        if(this.answers.k8s_enabled === "yes") {
+        if (this.answers.k8s_enabled === "yes") {
             this.fs.copyTpl(
                 this.templatePath('k8s/deployments/canary.yaml.ejs'),
                 this.destinationPath('k8s/deployments/canary.yaml'),
@@ -182,6 +182,19 @@ module.exports = class extends Generator {
                 this.destinationPath('k8s/services/production.yaml'),
                 {
                     service_name: this.answers.service_name
+                }
+            );
+        }
+    }
+
+    _writeGCBFiles() {
+        if (this.answers.cbuild_enabled === "yes") {
+            this.fs.copyTpl(
+                this.templatePath('cloudbuild.yaml.ejs'),
+                this.destinationPath('cloudbuild.yaml'),
+                {
+                    k8s_enabled: this.answers.k8s_enabled,
+                    build_tool: this.answers.build_tool
                 }
             );
         }
@@ -247,12 +260,27 @@ module.exports = class extends Generator {
                     },
                 ],
                 default: 'yes'
-            }
-            ,
+            },
             {
                 type: 'list',
                 name: 'k8s_enabled',
                 message: 'Would like to generate Kubernetes files?',
+                choices: [
+                    {
+                        value: 'yes',
+                        name: 'Yes'
+                    },
+                    {
+                        value: 'no',
+                        name: 'No'
+                    },
+                ],
+                default: 'yes'
+            },
+            {
+                type: 'list',
+                name: 'cbuild_enabled',
+                message: 'Would like to generate Google Cloud Build file?',
                 choices: [
                     {
                         value: 'yes',
@@ -275,6 +303,7 @@ module.exports = class extends Generator {
         this._writeResourcesFiles();
         this._writeTestFiles();
         this._writeK8sFiles();
+        this._writeGCBFiles();
     }
 
     configuring() {

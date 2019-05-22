@@ -1,0 +1,16 @@
+steps:
+<%_ if (build_tool === "gradle") { _%>
+  - name: 'gcr.io/cloud-builders/gradle'
+    args: ['test]
+<%_ } else { _%>
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['test]
+<%_ } _%>
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/authentication-service:$TAG_NAME', '.' ]
+<%_ if (k8s_enabled === "yes") { _%>
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['cp', '-r', 'k8s/*', 'gs://$PROJECT_ID-kubernetes-manifests/authentication-service']
+<%_ } _%>
+images:
+  - 'gcr.io/$PROJECT_ID/authentication-service:$TAG_NAME'

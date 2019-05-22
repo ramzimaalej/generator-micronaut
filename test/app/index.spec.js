@@ -73,4 +73,18 @@ describe('micronaut:app', function () {
                 assert.file('k8s/services/production.yaml');
             });
     });
+    it('generates Google Cloud Build files for Maven', function () {
+        return helpers.run(path.join(__dirname, '../../generators/app'))
+            .withPrompts({ build_tool: "maven", cbuild_enabled: "yes" })
+            .then(function () {
+                assert.file('cloudbuild.yaml');
+            });
+    });
+    it('generates Google Cloud Build files for Gradle', function () {
+        return helpers.run(path.join(__dirname, '../../generators/app'))
+            .withPrompts({ build_tool: "gradle", cbuild_enabled: "yes" })
+            .then(function () {
+                assert.file('cloudbuild.yaml');
+            });
+    });
 });
