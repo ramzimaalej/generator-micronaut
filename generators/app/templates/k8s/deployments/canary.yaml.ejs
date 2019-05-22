@@ -1,0 +1,34 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: <%= service_name %>
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: <%= service_name %>
+      labels:
+        app: <%= service_name %>
+        role: backend
+        env: canary
+    spec:
+      containers:
+        - name: backend
+          image: gcr.io/PROJECT/<%= service_name %>
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: "100m"
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          env:
+            - name: COMPONENT
+              value: backend
+            - name: VERSION
+              value: canary
+          ports:
+            - name: backend
+              containerPort: 8080

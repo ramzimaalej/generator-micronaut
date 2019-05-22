@@ -154,6 +154,39 @@ module.exports = class extends Generator {
         );
     }
 
+    _writeK8sFiles() {
+        if(this.answers.k8s_enabled === "yes") {
+            this.fs.copyTpl(
+                this.templatePath('k8s/deployments/canary.yaml.ejs'),
+                this.destinationPath('k8s/deployments/canary.yaml'),
+                {
+                    service_name: this.answers.service_name
+                }
+            );
+            this.fs.copyTpl(
+                this.templatePath('k8s/deployments/production.yaml.ejs'),
+                this.destinationPath('k8s/deployments/production.yaml'),
+                {
+                    service_name: this.answers.service_name
+                }
+            );
+            this.fs.copyTpl(
+                this.templatePath('k8s/services/canary.yaml.ejs'),
+                this.destinationPath('k8s/services/canary.yaml'),
+                {
+                    service_name: this.answers.service_name
+                }
+            );
+            this.fs.copyTpl(
+                this.templatePath('k8s/services/production.yaml.ejs'),
+                this.destinationPath('k8s/services/production.yaml'),
+                {
+                    service_name: this.answers.service_name
+                }
+            );
+        }
+    }
+
     async prompting() {
         this.answers = await this.prompt([
             {
@@ -215,6 +248,23 @@ module.exports = class extends Generator {
                 ],
                 default: 'yes'
             }
+            ,
+            {
+                type: 'list',
+                name: 'k8s_enabled',
+                message: 'Would like to generate Kubernetes files?',
+                choices: [
+                    {
+                        value: 'yes',
+                        name: 'Yes'
+                    },
+                    {
+                        value: 'no',
+                        name: 'No'
+                    },
+                ],
+                default: 'yes'
+            }
         ]);
     }
 
@@ -224,6 +274,7 @@ module.exports = class extends Generator {
         this._writeCodeFiles();
         this._writeResourcesFiles();
         this._writeTestFiles();
+        this._writeK8sFiles();
     }
 
     configuring() {

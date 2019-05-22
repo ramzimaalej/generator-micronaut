@@ -63,4 +63,14 @@ describe('micronaut:app', function () {
                 assert.file('src/test/groovy/com/veamly/ApplicationTest.groovy');
             });
     });
+    it('generates project k8s files', function () {
+        return helpers.run(path.join(__dirname, '../../generators/app'))
+            .withPrompts({ package_name: "com.veamly", testing_framework: "spock", k8s_enabled: "yes" })
+            .then(function () {
+                assert.file('k8s/deployments/canary.yaml');
+                assert.file('k8s/deployments/production.yaml');
+                assert.file('k8s/services/canary.yaml');
+                assert.file('k8s/services/production.yaml');
+            });
+    });
 });
