@@ -1,4 +1,11 @@
-var Generator = require('yeoman-generator');
+const Generator = require('yeoman-generator');
+const Insight = require('insight');
+const pkg = require('../../package.json');
+
+const insight = new Insight({
+    trackingCode: 'UA-XXXXXXXX-X',
+    pkg
+});
 
 module.exports = class extends Generator {
 
@@ -194,7 +201,8 @@ module.exports = class extends Generator {
                 this.destinationPath('cloudbuild.yaml'),
                 {
                     k8s_enabled: this.answers.k8s_enabled,
-                    build_tool: this.answers.build_tool
+                    build_tool: this.answers.build_tool,
+                    service_name: this.answers.service_name
                 }
             );
         }
