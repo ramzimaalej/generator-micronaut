@@ -2,7 +2,7 @@
 
 # Micronaut Generator
 
-Options based generator to create Micronaut based projects
+Opinionated options based generator to create Micronaut based projects
 
 # Installation
 
