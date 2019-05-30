@@ -101,7 +101,6 @@ module.exports = class extends Generator {
             this._writeJunitTestFiles();
         } else {
             this._writeSpockTestFiles();
-            this._writeJunitTestFiles();
         }
     }
 
