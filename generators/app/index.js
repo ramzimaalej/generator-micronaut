@@ -3,7 +3,7 @@ const Insight = require('insight');
 const pkg = require('../../package.json');
 
 const insight = new Insight({
-    trackingCode: 'UA-XXXXXXXX-X',
+    trackingCode: 'UA-141575036-1',
     pkg
 });
 
@@ -207,6 +207,19 @@ module.exports = class extends Generator {
         }
     }
 
+    _askPermissionToRecodeInsights() {
+        const done = this.async();
+        if (insight.optOut === undefined) {
+            insight.askPermission(null, () => {
+                done();
+            });
+        }
+    }
+
+    initializing() {
+        this._askPermissionToRecodeInsights();
+    }
+
     async prompting() {
         this.answers = await this.prompt([
             {
@@ -321,5 +334,44 @@ module.exports = class extends Generator {
         this.config.set("monitoring_enabled", this.answers.monitoring_enabled);
         this.config.set("k8s_enabled", this.answers.k8s_enabled);
         this.config.set("cbuild_enabled", this.answers.cbuild_enabled);
+    }
+
+    end() {
+        this._sendInsights();
+    }
+
+    _sendInsights() {
+        if(insight.optOut === false) {
+            insight.trackEvent({
+                category: 'generator_options',
+                action: 'build_tool',
+                label: this.answers.build_tool,
+                value: '1'
+            });
+            insight.trackEvent({
+                category: 'generator_options',
+                action: 'testing_framework',
+                label: this.answers.testing_framework,
+                value: '1'
+            });
+            insight.trackEvent({
+                category: 'generator_options',
+                action: 'monitoring_enabled',
+                label: this.answers.monitoring_enabled,
+                value: '1'
+            });
+            insight.trackEvent({
+                category: 'generator_options',
+                action: 'k8s_enabled',
+                label: this.answers.k8s_enabled,
+                value: '1'
+            });
+            insight.trackEvent({
+                category: 'generator_options',
+                action: 'cbuild_enabled',
+                label: this.answers.cbuild_enabled,
+                value: '1'
+            });
+        }
     }
 };
