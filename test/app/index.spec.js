@@ -1,8 +1,8 @@
 'use strict';
 
-var helpers = require('yeoman-test');
-var path = require('path');
-var assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
+const path = require('path');
+const assert = require('yeoman-assert');
 
 describe('micronaut:app', function () {
     it('generates project common files', function () {

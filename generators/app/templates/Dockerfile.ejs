@@ -1,4 +1,9 @@
 FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
-COPY target/*.jar app.jar
+<%_ if (build_tool === "gradle") { _%>
+COPY target/*-all.jar app.jar
+<%_ } _%>
+<%_ if (build_tool === "maven") { _%>
+COPY build/libs/*-all.jar app.jar
+<%_ } _%>
 EXPOSE 8080
 CMD java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dcom.sun.management.jmxremote -noverify ${JAVA_OPTS} -jar app.jar

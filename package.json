@@ -1,12 +1,12 @@
 {
   "name": "generator-micronaut",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Open Source generator for Micronaut based projects",
   "files": [
     "generators"
   ],
   "scripts": {
-    "test": "mocha $(find test -name '*.js')",
+    "test": "NODE_ENV=CI mocha $(find test -name '*.js')",
     "lint": "xo"
   },
   "repository": {

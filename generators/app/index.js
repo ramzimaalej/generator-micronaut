@@ -17,7 +17,10 @@ module.exports = class extends Generator {
         this.fs.copy(
             this.templatePath('Dockerfile.ejs'),
             this.destinationPath('Dockerfile'),
-            {service_name: this.answers.service_name}
+            {
+                service_name: this.answers.service_name,
+                build_tool: this.answers.build_tool
+            }
         );
         this.fs.copyTpl(
             this.templatePath('micronaut-cli.yml.ejs'),
@@ -217,7 +220,9 @@ module.exports = class extends Generator {
     }
 
     initializing() {
-        this._askPermissionToRecodeInsights();
+        if (process.env.NODE_ENV != 'CI') {
+            this._askPermissionToRecodeInsights();
+        }
     }
 
     async prompting() {
@@ -337,11 +342,13 @@ module.exports = class extends Generator {
     }
 
     end() {
-        this._sendInsights();
+        if (process.env.NODE_ENV != 'CI') {
+            this._sendInsights();
+        }
     }
 
     _sendInsights() {
-        if(insight.optOut === false) {
+        if (insight.optOut === false) {
             insight.trackEvent({
                 category: 'generator_options',
                 action: 'build_tool',

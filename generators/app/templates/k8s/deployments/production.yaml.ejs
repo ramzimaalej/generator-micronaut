@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: Always
           readinessProbe:
             httpGet:
-              path: /
+              path: /endpoints/health
               port: 8080
           env:
             - name: COMPONENT
