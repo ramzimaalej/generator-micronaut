@@ -216,11 +216,13 @@ module.exports = class extends Generator {
             insight.askPermission(null, () => {
                 done();
             });
+        } else {
+            done();
         }
     }
 
     initializing() {
-        if (process.env.NODE_ENV != 'CI') {
+        if (process.env.NODE_ENV !== 'CI') {
             this._askPermissionToRecodeInsights();
         }
     }
@@ -342,7 +344,7 @@ module.exports = class extends Generator {
     }
 
     end() {
-        if (process.env.NODE_ENV != 'CI') {
+        if (process.env.NODE_ENV !== 'CI') {
             this._sendInsights();
         }
     }
