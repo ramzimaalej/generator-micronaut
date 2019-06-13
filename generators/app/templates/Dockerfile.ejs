@@ -1,8 +1,8 @@
 FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
-<%_ if (build_tool === "gradle") { _%>
+<%_ if (build_tool === "maven") { _%>
 COPY target/*-all.jar app.jar
 <%_ } _%>
-<%_ if (build_tool === "maven") { _%>
+<%_ if (build_tool === "gradle") { _%>
 COPY build/libs/*-all.jar app.jar
 <%_ } _%>
 EXPOSE 8080
